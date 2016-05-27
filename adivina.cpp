@@ -8,6 +8,7 @@ struct AD {
 	AD *si, *no;
 	string dat;
 
+	AD();
 	AD(string);
 	void Insertar(string);
 	void Carga(ifstream &);
@@ -19,11 +20,6 @@ AD::AD(string ani) : si(NULL), no(NULL), dat(ani) {}
 void AD::Insertar(string ani) {
 	if (!no) no = new AD(ani);
 	else no->Insertar(ani);
-}
-
-void Ayuda(string a) {
-	cout << "Modo de uso: ";
-	cout << a << ": [Nombre de archivo]\n";
 }
 
 void AD::Carga(ifstream &f) {
@@ -45,21 +41,32 @@ void AD::Guarda(fstream &f) {
 }
 
 int main(int argc, char **argv) {
-	char first[] = "Es terrestre?";
-	AD *arbol = new AD(first);
-	AD *inicio = arbol;
+	AD *arbol;
+	string tmp;
+	string nombre = "animales.dat";
 	if (argc > 1) {
-		if (!strcmp(argv[1], "--help")) Ayuda(argv[0]);
-		else {
-			ifstream arch(argv[1]);
-			string tmp;
-			getline(arch, tmp);
-			arbol->dat = tmp;
-			arbol->Carga(arch);
-			arch.close();
+		nombre = string(argv[1]);
+		ifstream arch(nombre);
+		getline(arch, tmp);
+		if (tmp == "") {
+			cout << "Escribe una pregunta\n"; getline(cin, tmp);
+			arbol = new AD(tmp);
+			cout << "Escribe el animal\n"; getline(cin, tmp);
+			arbol->si = new AD(tmp);
 		}
+		else {
+			arbol = new AD(tmp);
+			arbol->Carga(arch);
+		}
+		arch.close();
 	}
-	else arbol->si = new AD("Elefante");
+	else {
+		cout << "Escribe una pregunta\n"; getline(cin, tmp);
+		arbol = new AD(tmp);
+		cout << "Escribe el animal\n"; getline(cin, tmp);
+		arbol->si = new AD(tmp);
+	}
+	AD *inicio = arbol;
 
 	char r;
 	string preg;
@@ -75,7 +82,7 @@ int main(int argc, char **argv) {
 				cin >> r;
 				if (r == 'S' or r == 's') arbol = inicio;
 				else {
-					fstream arch("animales.dat", fstream::out);
+					fstream arch(nombre, fstream::out);
 					inicio->Guarda(arch);
 					arch.close();
 					return 0;
@@ -93,7 +100,7 @@ int main(int argc, char **argv) {
 				cin >> r;
 				if (r == 'S' or r == 's') arbol = inicio;
 				else {
-					fstream arch("animales.dat", fstream::out);
+					fstream arch(nombre, fstream::out);
 					inicio->Guarda(arch);
 					arch.close();
 					return 0;
