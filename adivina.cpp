@@ -61,10 +61,19 @@ int main(int argc, char **argv) {
 		arch.close();
 	}
 	else {
-		cout << "Escribe una pregunta\n"; getline(cin, tmp);
-		arbol = new AD(tmp);
-		cout << "Escribe el animal\n"; getline(cin, tmp);
-		arbol->si = new AD(tmp);
+		ifstream arch(nombre);
+		getline(arch, tmp);
+		if (tmp == "") {
+			cout << "Escribe una pregunta\n"; getline(cin, tmp);
+			arbol = new AD(tmp);
+			cout << "Escribe el animal\n"; getline(cin, tmp);
+			arbol->si = new AD(tmp);
+		}
+		else {
+			arbol = new AD(tmp);
+			arbol->Carga(arch);
+		}
+		arch.close();
 	}
 	AD *inicio = arbol;
 
@@ -72,7 +81,7 @@ int main(int argc, char **argv) {
 	string preg;
 	while (arbol != NULL) {
 		if (arbol->si) cout << arbol->dat << " (S/N)\n";
-		else cout << "Es un " << arbol->dat << "? (S/N)\n";
+		else cout << "Es un(a) " << arbol->dat << "? (S/N)\n";
 		cin >> r; cin.ignore();
 		if (r == 'S' or r == 's') {
 			if (arbol->si) arbol = arbol->si;
