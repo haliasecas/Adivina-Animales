@@ -19,4 +19,4 @@ Si el archivo contiene datos, los carga y comienza con la primera
 pregunta que contenga.
 
 En caso de llegar a un resultado desconocido, pedirá una pregunta 
-y un animal, que guardará posteriormente.
+y un animal que guardará posteriormente.
