@@ -1,5 +1,6 @@
 all: adivina.cpp
-	g++ adivina.cpp -o Adivina -O2
+	@g++ adivina.cpp -o Adivina -O2
+	@echo "Compilado";
 
 clean: 
-	rm -f ./a.out
+	@rm -f ./a.out
